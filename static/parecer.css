@@ -1,0 +1,71 @@
+body {
+    display: block;
+    margin: 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+.imgHolder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    overflow: auto;
+    height: auto;
+    max-width: 100%;
+}
+.table{
+    flex: 0;
+    min-width: fit-content;
+}
+
+.comments{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-left: 20px;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+    font-family: "Calibri";
+}
+
+td, th{
+    font-family: "Calibri";
+    border: solid black 1px;
+    padding: 2px;
+}
+
+tr.dark > td, th{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+h3 {
+    font-family: "Calibri";
+}
+
+h4{
+    font-family: "Calibri";
+    font-weight: normal;
+    margin: 5px;
+}
+
+.maintable {
+    border: solid black 2px;
+}
+
+.studentinfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    height: fit-content;
+}
