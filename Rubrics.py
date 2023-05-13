@@ -53,12 +53,13 @@ def CreateStudentList(df):
     teacher = df.iloc[1][1]
     level = df.iloc[2][1]
     semester = df.iloc[3][1]
+    totalClasses = df.iloc[1][45]
     student_grade_list = []
     for i in range(5, df.index.stop):
         if(type(df.iloc[i][1]) == float):
             continue
         student_grade_list.append(df.iloc[i])
-    return teacher, level, semester, student_grade_list
+    return teacher, level, semester, totalClasses, student_grade_list
 
 def CreateStudentDict(parecer, student_list):
     student_grades_dict = {}
@@ -75,19 +76,20 @@ def ValidateGrades(parecer, student):
     speaking = 0 if math.isnan(student[columns[4]]) else round(student[columns[4]],1)
     classperformance = 0 if math.isnan(student[columns[5]]) else round(student[columns[5]],1)
     parecergrade = 0 if math.isnan(student[columns[6]]) else round(statistics.mean([speaking, listening, reading, writing, grammar,classperformance]) * 10)
-    finalscore = 0 if math.isnan(student[columns[6]]) else int(round(student[columns[6]], 0))
-    comments = student[columns[7]]
+    finalscore = 0 if math.isnan(student[columns[6]]) else int(round(student[columns[6]], 1))
+    attendance = 0 if math.isnan(student[columns[7]]) else student[columns[7]]
+    comments = student[columns[8]]
 
-    return {"Listening" : listening, "Grammar" : grammar, "Reading" : reading, "Writing" : writing, "Speaking" : speaking, "Class Performance" : classperformance, "Final Score" : finalscore, "Parecer Grade" : parecergrade, "Comments" : comments}
+    return {"Listening" : listening, "Grammar" : grammar, "Reading" : reading, "Writing" : writing, "Speaking" : speaking, "Class Performance" : classperformance, "Final Score" : finalscore, "Parecer Grade" : parecergrade, "Attendance": attendance, "Comments" : comments}
 
 def SelectColumns(parecer):
     if (parecer == 1):
-        columns = (4, 7, 10, 13, 16, 19, 44, 46)
+        columns = (4, 7, 10, 13, 16, 19, 44, 45, 46)
     else:
-        columns = (22, 25, 28, 31, 34, 37, 44,47)
+        columns = (22, 25, 28, 31, 34, 37, 44, 45, 47)
     return columns
 
-def RenderTemplate(parecer, teacher, level, semester, folder_path, student_dict):
+def RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path, student_dict):
 
     loader = FileSystemLoader('templates')
     env = Environment(loader=loader)
@@ -106,6 +108,7 @@ def RenderTemplate(parecer, teacher, level, semester, folder_path, student_dict)
         classperformance = student_dict[student]["Class Performance"]
         parecergrade = student_dict[student]["Parecer Grade"]
         finalscore = student_dict[student]["Final Score"]
+        attendance = round((student_dict[student]["Attendance"]/totalClasses) * 100)
         comments = student_dict[student]["Comments"]
 
         render = template.render(teacher = teacher,
@@ -119,7 +122,8 @@ def RenderTemplate(parecer, teacher, level, semester, folder_path, student_dict)
                                 speaking = speaking,
                                 classPerformance = classperformance,
                                 parecerGrade = parecergrade,
-                                finalScore = finalscore, 
+                                finalScore = finalscore,
+                                attendance = attendance, 
                                 comments = comments)
 
         file_path = f"{folder_path}/{student} - Parecer {parecer}"
@@ -131,8 +135,8 @@ def ConvertTable():
     for file_path in files:
         folder_path = CreateFolder(file_path)
         df = ExtractDataFrame(file_path)
-        teacher, level, semester, student_grade_list = CreateStudentList(df)
+        teacher, level, semester, totalClasses, student_grade_list = CreateStudentList(df)
         student_grades_dict = CreateStudentDict(parecer, student_grade_list)
-        RenderTemplate(parecer, teacher, level, semester, folder_path, student_grades_dict)
+        RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path, student_grades_dict)
 
 ConvertTable()

@@ -28,32 +28,40 @@
         <div class="table">
             <table class="maintable">
                 <tr class="dark">
-                    <th>Skill</th>
-                    <th>Grade</th>
+                    <th><span style="font-size: 12pt;">Skill</span><br/><span style="font-size: 8pt;">Habilidade</span></th>
+                    <th><span style="font-size: 12pt;">Grade</span><br/><span style="font-size: 8pt;">Nota</span></th>
                 </tr>
                 <tr>
-                    <td>Listening</td>
+                    <td><span style="font-size: 12pt;">Listening</span><br/><span style="font-size: 8pt;">Compreensão Oral</span></td>
                     <td>{{listening}}/10</td>
                 </tr>
                 <tr class="dark">
-                    <td>Grammar</td>
+                    <td><span style="font-size: 12pt;">Grammar</span><br/><span style="font-size: 8pt;">Uso Gramatical</span></td>
                     <td>{{grammar}}/10</td>
                 </tr>
                 <tr>
-                    <td>Reading</td>
+                    <td><span style="font-size: 12pt;">Reading</span><br/><span style="font-size: 8pt;">Compreensão Escrita</span></td>
                     <td>{{reading}}/10</td>
                 </tr>
                 <tr class="dark">
-                    <td>Writing</td>
+                    <td><span style="font-size: 12pt;">Writing</span><br/><span style="font-size: 8pt;">Produção Escrita</span></td>
                     <td>{{writing}}/10</td>
                 </tr>
                 <tr>
-                    <td>Speaking</td>
+                    <td><span style="font-size: 12pt;">Speaking</span><br/><span style="font-size: 8pt;">Produção Oral</span></td>
                     <td>{{speaking}}/10</td>
                 </tr>
                 <tr class="dark">
-                    <td>Class Performance</td>
+                    <td><span style="font-size: 12pt;">Class Perfomance</span><br/><span style="font-size: 8pt;">Performance em Sala</span></td>
                     <td>{{classPerformance}}/10</td>
+                </tr>
+                <tr>
+                    <td><span style="font-size: 12pt;">Attendance</span><br/><span style="font-size: 8pt;">Frequência</span></td>
+                    <td>{{attendance}}%</td>
+                </tr>
+                <tr class="dark">
+                    <td>Resultado do Parecer 1:</td>
+                    <td>{{parecerGrade}}/100</td>
                 </tr>
             </table>
         </div>
@@ -61,7 +69,6 @@
         <div class="comments">
             <p>Comentário do professor:</p>
             <p style="margin-top: 10px; margin-bottom: 10px;">{{comments}}</p>
-            <p><b>Resultado do Parecer 1:</b> {{parecerGrade}}/100</p>
         </div>
     </div>
 

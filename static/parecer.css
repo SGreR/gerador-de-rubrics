@@ -21,14 +21,16 @@ body {
 }
 .table{
     flex: 0;
-    min-width: fit-content;
+    min-width: 200px;
 }
 
 .comments{
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: flex-start;
     padding-left: 20px;
+    padding-right: 5px;
+    gap: 5px;
 }
 
 p {
@@ -41,7 +43,8 @@ p {
 td, th{
     font-family: "Calibri";
     border: solid black 1px;
-    padding: 2px;
+    padding: 5px;
+    text-align: center;
 }
 
 tr.dark > td, th{
