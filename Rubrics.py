@@ -45,71 +45,104 @@ def CreateFolder(file_path):
 
 def ExtractDataFrame(file_path):
     file = pd.ExcelFile(file_path)
-    content = pd.read_excel(file, 'NOTAS')
-    df = pd.DataFrame(content)
-    return df
+    contentGrades = pd.read_excel(file, 'NOTAS')
+    dfGrades = pd.DataFrame(contentGrades)
 
-def CreateStudentList(df):
-    teacher = df.iloc[1][1]
-    level = df.iloc[2][1]
-    semester = df.iloc[3][1]
-    totalClasses = df.iloc[1][45]
-    student_grade_list = []
-    for i in range(5, df.index.stop):
-        if(type(df.iloc[i][1]) == float):
+    teacher = dfGrades.iloc[1][1]
+    level = dfGrades.iloc[2][1] 
+    semester = dfGrades.iloc[3][1]
+    totalClasses = dfGrades.iloc[1][45]
+    dfMocks = ""
+
+    if ("expert" in level.lower() or "master" in level.lower()):
+        contentMocks = pd.read_excel(file, 'MOCKS')
+        dfMocks = pd.DataFrame(contentMocks)
+    
+    return dfGrades, dfMocks, teacher, level, semester, totalClasses
+
+def CreateStudentList(parecer, dfGrades, dfMocks):
+    student_grades = {}
+    for i in range(5, dfGrades.index.stop):
+        if(type(dfGrades.iloc[i][1]) == float):
             continue
-        student_grade_list.append(df.iloc[i])
-    return teacher, level, semester, totalClasses, student_grade_list
+        key = dfGrades.iloc[i][1]
+        grades = dfGrades.iloc[i][2:]
+        student_grades[key] = ValidateGrades(parecer, grades)
+    
+    if (type(dfMocks) != str):    
+        for key in student_grades.keys():
+            student_grades[key]["Mocks"] = {}
+            for i in range(0, dfMocks.index.stop):
+                if (dfMocks.iloc[i][0] != key):
+                    continue
+                for j in range(0,2):
+                    student_grades[key]["Mocks"][f'Mock {j+1}'] = {}
 
-def CreateStudentDict(parecer, student_list):
-    student_grades_dict = {}
-    for student in student_list:
-        student_grades_dict[str(student[1])] = ValidateGrades(parecer, student)
-    return student_grades_dict
+                    student_grades[key]["Mocks"][f'Mock {j+1}']["Date"] = "" if (type(dfMocks.iloc[i+2+j][2]) == float) else dfMocks.iloc[i+2+j][2]
+                    student_grades[key]["Mocks"][f'Mock {j+1}']["Test"] = "" if (type(dfMocks.iloc[i+2+j][3]) == float) else dfMocks.iloc[i+2+j][3]
+                    student_grades[key]["Mocks"][f'Mock {j+1}']["Number"] = "" if (type(dfMocks.iloc[i+2+j][4]) == float) else dfMocks.iloc[i+2+j][4]
+                    student_grades[key]["Mocks"][f'Mock {j+1}']["Reading and Use of English"] = round(dfMocks.iloc[i+2+j][20] * 100)
+                    student_grades[key]["Mocks"][f'Mock {j+1}']["Listening"] = round(dfMocks.iloc[i+2+j][21] * 100)
+                    student_grades[key]["Mocks"][f'Mock {j+1}']["Writing"] = round(dfMocks.iloc[i+2+j][22] * 100)
+    
+    return student_grades
 
-def ValidateGrades(parecer, student):
+def ValidateGrades(parecer, grades):
     columns = SelectColumns(parecer)
-    listening = 0 if math.isnan(student[columns[0]]) else round(student[columns[0]],1)
-    grammar = 0 if math.isnan(student[columns[1]]) else round(student[columns[1]],1)
-    reading = 0 if math.isnan(student[columns[2]]) else round(student[columns[2]],1)
-    writing = 0 if math.isnan(student[columns[3]]) else round(student[columns[3]],1)
-    speaking = 0 if math.isnan(student[columns[4]]) else round(student[columns[4]],1)
-    classperformance = 0 if math.isnan(student[columns[5]]) else round(student[columns[5]],1)
-    parecergrade = 0 if math.isnan(student[columns[6]]) else round(statistics.mean([speaking, listening, reading, writing, grammar,classperformance]) * 10)
-    finalscore = 0 if math.isnan(student[columns[6]]) else int(round(student[columns[6]], 1))
-    attendance = 0 if math.isnan(student[columns[7]]) else student[columns[7]]
-    comments = student[columns[8]]
+    listening = 0 if math.isnan(grades[columns[0]]) else round(grades[columns[0]],1)
+    grammar = 0 if math.isnan(grades[columns[1]]) else round(grades[columns[1]],1)
+    reading = 0 if math.isnan(grades[columns[2]]) else round(grades[columns[2]],1)
+    writing = 0 if math.isnan(grades[columns[3]]) else round(grades[columns[3]],1)
+    speaking = 0 if math.isnan(grades[columns[4]]) else round(grades[columns[4]],1)
+    classperformance = 0 if math.isnan(grades[columns[5]]) else round(grades[columns[5]],1)
+    parecergrade = 0 if math.isnan(grades[columns[6]]) else round(statistics.mean([speaking, listening, reading, writing, grammar,classperformance]),1)
+    finalscore = 0 if math.isnan(grades[columns[6]]) else int(round(grades[columns[6]]/10, 1))
+    attendance = 0 if math.isnan(grades[columns[7]]) else grades[columns[7]]
+    comments = grades[columns[8]]
 
-    return {"Listening" : listening, "Grammar" : grammar, "Reading" : reading, "Writing" : writing, "Speaking" : speaking, "Class Performance" : classperformance, "Final Score" : finalscore, "Parecer Grade" : parecergrade, "Attendance": attendance, "Comments" : comments}
+    return {"Grades": {"Listening" : listening, "Grammar" : grammar, "Reading" : reading, "Writing" : writing, "Speaking" : speaking, "Class Performance" : classperformance, "Final Score" : finalscore, "Parecer Grade" : parecergrade }, 
+            "Attendance": attendance, 
+            "Comments" : comments}
 
 def SelectColumns(parecer):
     if (parecer == 1):
-        columns = (4, 7, 10, 13, 16, 19, 44, 45, 46)
+        columns = (2, 5, 8, 11, 14, 17, 42, 43, 44)
     else:
-        columns = (22, 25, 28, 31, 34, 37, 44, 45, 47)
+        columns = (20, 23, 26, 29, 32, 35, 42, 43, 45)
     return columns
 
 def RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path, student_dict):
 
     loader = FileSystemLoader('templates')
     env = Environment(loader=loader)
-    if (parecer == 1):
+    if ("expert" in level.lower() or "master" in level.lower() and parecer == 1):
+        template = env.get_template('parecer1expert.html')
+    elif (parecer == 1):
         template = env.get_template('parecer1.html')
     if (parecer == 2):
         template = env.get_template('parecer2.html')
 
-    for student in student_dict:
+    for student in student_dict.keys():
         
-        grammar = student_dict[student]["Grammar"]
-        reading = student_dict[student]["Reading"]
-        writing = student_dict[student]["Writing"]
-        speaking = student_dict[student]["Speaking"]
-        listening = student_dict[student]["Listening"]
-        classperformance = student_dict[student]["Class Performance"]
-        parecergrade = student_dict[student]["Parecer Grade"]
-        finalscore = student_dict[student]["Final Score"]
+        grammar = student_dict[student]["Grades"]["Grammar"]
+        reading = student_dict[student]["Grades"]["Reading"]
+        writing = student_dict[student]["Grades"]["Writing"]
+        speaking = student_dict[student]["Grades"]["Speaking"]
+        listening = student_dict[student]["Grades"]["Listening"]
+        classperformance = student_dict[student]["Grades"]["Class Performance"]
+        parecergrade = student_dict[student]["Grades"]["Parecer Grade"]
+        finalscore = student_dict[student]["Grades"]["Final Score"]
         attendance = round((student_dict[student]["Attendance"]/totalClasses) * 100)
         comments = student_dict[student]["Comments"]
+        mockTable = ""
+
+        if (parecer == 1):
+            gradeTable = getGradeTable(parecergrade)
+        if (parecer == 2):
+            gradeTable = getGradeTable(finalscore)
+
+        if("Mocks" in student_dict[student]):
+            mockTable = getMockTable(student_dict[student]["Mocks"])
 
         render = template.render(teacher = teacher,
                                 level = level, 
@@ -124,19 +157,120 @@ def RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path,
                                 parecerGrade = parecergrade,
                                 finalScore = finalscore,
                                 attendance = attendance, 
-                                comments = comments)
+                                comments = comments,
+                                gradeTable = gradeTable,
+                                mockTable = mockTable)
 
         file_path = f"{folder_path}/{student} - Parecer {parecer}"
         weasyprint.HTML(string = render, base_url = folder_path, encoding = 'UTF-8').write_pdf(f"{file_path}.pdf")
         print(f"{student} Parecer {parecer}.pdf successfully created at {folder_path}")
 
+def getGradeTable(grade):
+
+    distinction = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Distinction</span><br/><span style="font-size: 8pt;">Distinção</span></td>\n' if grade >= 9.5 else '<td><span style="font-size: 10pt;">Distinction</span><br/><span style="font-size: 8pt;">Distinção</span></td>\n'
+    merit = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n' if (grade < 9.5 and grade >= 9) else '<td><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n'
+    vgood = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Very Good</span><br/><span style="font-size: 8pt;">Muito Bom</span></td>\n' if (grade < 9 and grade >= 8) else '<td><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n'
+    good = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Good</span><br/><span style="font-size: 8pt;">Bom</span></td>\n' if (grade < 8 and grade >= 7) else '<td><span style="font-size: 10pt;">Good</span><br/><span style="font-size: 8pt;">Bom</span></td>\n'
+    average = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Average</span><br/><span style="font-size: 8pt;">Regular</span></td>\n' if (grade < 7 and grade >= 6) else '<td><span style="font-size: 10pt;">Average</span><br/><span style="font-size: 8pt;">Regular</span></td>\n'
+    fail = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Below Average</span><br/><span style="font-size: 8pt;">Abaixo da média</span></td>\n' if (grade < 6) else '<td><span style="font-size: 10pt;">Below Average</span><br/><span style="font-size: 8pt;">Abaixo da média</span></td>\n'
+
+    tableContent = '<table class="concept">\n'
+    tableContent += '<tr class="dark">\n'
+    tableContent += '<th><span style="font-size: 10pt;">Grade</span><br/><span style="font-size: 8pt;">Nota</span></th>\n'
+    tableContent += '<th><span style="font-size: 10pt;">Result</span><br/><span style="font-size: 8pt;">Resultado</span></th>\n'
+    tableContent += '</tr>\n'
+    tableContent += '<tr>\n'
+    tableContent += '<td><span style="font-size: 10pt; white-space: nowrap;">9.5 a 10</span></td>\n'
+    tableContent += distinction                
+    tableContent += '</tr>\n'
+    tableContent += '<tr class="dark">\n'
+    tableContent += '<td><span style="font-size: 10pt;">9 a 9.4</span></td>\n'
+    tableContent += merit                
+    tableContent += '</tr>\n'
+    tableContent += '<tr>\n'
+    tableContent += '<td><span style="font-size: 10pt;">8 a 8.9</span></td>\n'
+    tableContent += vgood
+    tableContent += '</tr>\n'
+    tableContent += '<tr class="dark">\n'
+    tableContent += '<td><span style="font-size: 10pt;">7 a 7.9</span></td>\n'
+    tableContent += good
+    tableContent += '</tr>\n'
+    tableContent += '<tr>\n'
+    tableContent += '<td><span style="font-size: 10pt;">6 a 6.9</span></td>\n'
+    tableContent += average
+    tableContent += '</tr>\n'
+    tableContent += '<tr class="dark">\n'
+    tableContent += '<td><span style="font-size: 10pt;">Até 5.9</span></td>\n'
+    tableContent += fail
+    tableContent += '</tr>\n'
+    tableContent += '</table>\n'
+
+    return tableContent
+
+
+def getMockTable(mocks):
+    tableContent = '<table class="mocktable">\n'
+    tableContent += '<tr>\n'
+    tableContent += '<th>Data</th>\n'
+    tableContent += '<th>Mock</th>\n'
+    tableContent += '<th>Número</th>\n'
+    tableContent += '<th>Reading and Use of English</th>\n'
+    tableContent += '<th>Writing</th>\n'
+    tableContent += '<th>Listening</th>\n'
+    tableContent += '</tr>\n'
+
+    for mock in mocks:
+        tableContent += '<tr>\n'
+        tableContent += '<td>{}</td>\n'.format(mocks[mock]["Date"])
+        tableContent += '<td>{}</td>\n'.format(mocks[mock]["Test"])
+        tableContent += '<td>{}</td>\n'.format(mocks[mock]["Number"])
+        tableContent += '<td style="background-color: {};">{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Reading and Use of English"]),mocks[mock]["Reading and Use of English"])
+        tableContent += '<td style="background-color: {};">{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Listening"]),mocks[mock]["Listening"])
+        tableContent += '<td style="background-color: {};">{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Writing"]),mocks[mock]["Writing"])
+        tableContent += '</tr>\n'
+
+    tableContent += '</table>'
+    return tableContent
+
+def getColor(test, grade):
+    gray = "#7f7f7f"
+    red = "#ff0000"
+    green = "#92d050"
+    blue = "#00b0f0"
+    yellow = "#ffff00"
+
+    if (grade < 45):
+            return gray
+    else:
+        if (test == "FCE" and grade >= 80):
+                return green
+        elif (test =="FCE" and (grade >= 60 and grade < 80)):
+            return blue
+        elif (test == "FCE" and (grade > 45 and grade < 60)):
+            return yellow
+        
+        elif (test == "CAE" and grade >= 80):
+            return red
+        elif (test =="CAE" and (grade >= 60 and grade < 80)):
+            return green
+        elif (test =="CAE" and grade > 45 and grade < 60):
+            return blue
+        
+        elif (test == "CPE" and grade >= 60):
+            return red
+        elif (test == "CPE" and (grade > 45 and grade < 60)):
+            return green
+        
+        else:
+            return gray
+        
+
 def ConvertTable():
     parecer, files = SelectFiles()
     for file_path in files:
         folder_path = CreateFolder(file_path)
-        df = ExtractDataFrame(file_path)
-        teacher, level, semester, totalClasses, student_grade_list = CreateStudentList(df)
-        student_grades_dict = CreateStudentDict(parecer, student_grade_list)
-        RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path, student_grades_dict)
+        dfGrades, dfMocks, teacher, level, semester, totalClasses = ExtractDataFrame(file_path)
+        student_grades = CreateStudentList(parecer, dfGrades, dfMocks)
+        RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path, student_grades)
 
 ConvertTable()
