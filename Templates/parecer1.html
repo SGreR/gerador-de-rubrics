@@ -9,14 +9,18 @@
         <img src="../static/Logo.jpeg" style="max-height: 100px; margin-bottom: 10px;" alt="[Imagem de cabeçalho]">
     </div>
 
-    <div class="studentinfo">
-        <h4>Olá, <b>{{student}}!</b></h4>
-        <h4><b>Semestre:</b> {{semester}}</h4>
-        <h4><b>Turma:</b> {{level}}</h4>
-        <h4><b>Professor:</b> {{teacher}}</h4>
+    <div class="header">
+        <div class="studentinfo">
+            <h4>Olá, <b>{{student}}!</b></h4>
+            <h4><b>Turma:</b> {{level}}</h4>
+        </div>
+        <div class="studentinfo">
+            <h4><b>Semestre:</b> {{semester}}</h4>
+            <h4><b>Professor:</b> {{teacher}}</h4>
+        </div>
     </div>
 
-    <div style="display: flex; flex-direction: row; justify-content: center;">
+    <div style="display: flex; flex-direction: row; justify-content: flex-start;">
         <h4> Curioso(a) para saber os seus resultados para este semestre? Aqui estão nossas considerações: </h4>
     </div>
 
@@ -61,7 +65,7 @@
                 </tr>
                 <tr class="dark">
                     <td>Resultado do Parecer 1:</td>
-                    <td>{{parecerGrade}}/10</td>
+                    <td style="background-color: #FE3C00;">{{parecerGrade}}/10</td>
                 </tr>
             </table>
             {{gradeTable}}

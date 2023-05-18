@@ -26,23 +26,27 @@ body {
     gap: 5px;
 }
 
+.fail{
+    background-color: #7f7f7f;
+}
+
 .a1{
-    background-color:#7030a0;
+    background-color:#9C3293;
 }
 .a2{
-    background-color:#ffc000;
+    background-color:#DBA626;
 }
 .b1{
-    background-color: #ffff00;
+    background-color: #FECA0A;
 }
 .b2{
-    background-color: #00b0f0;
+    background-color: #1074BC;
 }
 .c1{
-    background-color: #92d050;
+    background-color: #8BC63E;
 }
 .c2{
-    background-color: #ff0000;
+    background-color: #EE1D23;
 }
 
 .comments{
@@ -132,8 +136,16 @@ img {
 
 .studentinfo {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
-    flex-wrap: wrap;
+    align-items: stretch;
     height: fit-content;
+}
+
+.header{
+    display: flex; 
+    flex-direction: row;
+    justify-content: stretch;
+    width: 1fr;
+    justify-self: center;
 }

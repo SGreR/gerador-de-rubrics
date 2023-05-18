@@ -167,12 +167,12 @@ def RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path,
 
 def getGradeTable(grade):
 
-    distinction = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Distinction</span><br/><span style="font-size: 8pt;">Distinção</span></td>\n' if grade >= 9.5 else '<td><span style="font-size: 10pt;">Distinction</span><br/><span style="font-size: 8pt;">Distinção</span></td>\n'
-    merit = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n' if (grade < 9.5 and grade >= 9) else '<td><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n'
-    vgood = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Very Good</span><br/><span style="font-size: 8pt;">Muito Bom</span></td>\n' if (grade < 9 and grade >= 8) else '<td><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n'
-    good = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Good</span><br/><span style="font-size: 8pt;">Bom</span></td>\n' if (grade < 8 and grade >= 7) else '<td><span style="font-size: 10pt;">Good</span><br/><span style="font-size: 8pt;">Bom</span></td>\n'
-    average = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Average</span><br/><span style="font-size: 8pt;">Regular</span></td>\n' if (grade < 7 and grade >= 6) else '<td><span style="font-size: 10pt;">Average</span><br/><span style="font-size: 8pt;">Regular</span></td>\n'
-    fail = '<td style="background-color: #9d3293;"><span style="font-size: 10pt;">Below Average</span><br/><span style="font-size: 8pt;">Abaixo da média</span></td>\n' if (grade < 6) else '<td><span style="font-size: 10pt;">Below Average</span><br/><span style="font-size: 8pt;">Abaixo da média</span></td>\n'
+    distinction = '<td style="background-color: #FE3C00;"><span style="font-size: 10pt;">Distinction</span><br/><span style="font-size: 8pt;">Distinção</span></td>\n' if grade >= 9.5 else '<td><span style="font-size: 10pt;">Distinction</span><br/><span style="font-size: 8pt;">Distinção</span></td>\n'
+    merit = '<td style="background-color: #FE3C00;"><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n' if (grade < 9.5 and grade >= 9) else '<td><span style="font-size: 10pt;">Merit</span><br/><span style="font-size: 8pt;">Mérito</span></td>\n'
+    vgood = '<td style="background-color: #FE3C00;"><span style="font-size: 10pt;">Very Good</span><br/><span style="font-size: 8pt;">Muito Bom</span></td>\n' if (grade < 9 and grade >= 8) else '<td><span style="font-size: 10pt;">Very Good</span><br/><span style="font-size: 8pt;">Muito Bom</span></td>\n'
+    good = '<td style="background-color: #FE3C00;"><span style="font-size: 10pt;">Good</span><br/><span style="font-size: 8pt;">Bom</span></td>\n' if (grade < 8 and grade >= 7) else '<td><span style="font-size: 10pt;">Good</span><br/><span style="font-size: 8pt;">Bom</span></td>\n'
+    average = '<td style="background-color: #FE3C00;"><span style="font-size: 10pt;">Average</span><br/><span style="font-size: 8pt;">Regular</span></td>\n' if (grade < 7 and grade >= 6) else '<td><span style="font-size: 10pt;">Average</span><br/><span style="font-size: 8pt;">Regular</span></td>\n'
+    fail = '<td style="background-color: #FE3C00;"><span style="font-size: 10pt;">Below Average</span><br/><span style="font-size: 8pt;">Abaixo da média</span></td>\n' if (grade < 6) else '<td><span style="font-size: 10pt;">Below Average</span><br/><span style="font-size: 8pt;">Abaixo da média</span></td>\n'
 
     tableContent = '<table class="concept">\n'
     tableContent += '<tr class="dark">\n'
@@ -224,45 +224,40 @@ def getMockTable(mocks):
         tableContent += '<td>{}</td>\n'.format(mocks[mock]["Date"])
         tableContent += '<td>{}</td>\n'.format(mocks[mock]["Test"])
         tableContent += '<td>{}</td>\n'.format(mocks[mock]["Number"])
-        tableContent += '<td style="background-color: {};">{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Reading and Use of English"]),mocks[mock]["Reading and Use of English"])
-        tableContent += '<td style="background-color: {};">{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Listening"]),mocks[mock]["Listening"])
-        tableContent += '<td style="background-color: {};">{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Writing"]),mocks[mock]["Writing"])
+        tableContent += '<td class={}>{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Reading and Use of English"]),mocks[mock]["Reading and Use of English"])
+        tableContent += '<td class={}>{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Listening"]),mocks[mock]["Listening"])
+        tableContent += '<td class={}>{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Writing"]),mocks[mock]["Writing"])
         tableContent += '</tr>\n'
 
     tableContent += '</table>'
     return tableContent
 
 def getColor(test, grade):
-    gray = "#7f7f7f"
-    red = "#ff0000"
-    green = "#92d050"
-    blue = "#00b0f0"
-    yellow = "#ffff00"
 
     if (grade < 45):
-            return gray
+            return "fail"
     else:
         if (test == "FCE" and grade >= 80):
-                return green
+                return "c1"
         elif (test =="FCE" and (grade >= 60 and grade < 80)):
-            return blue
+            return "b2"
         elif (test == "FCE" and (grade > 45 and grade < 60)):
-            return yellow
+            return "b1"
         
         elif (test == "CAE" and grade >= 80):
-            return red
+            return "c2"
         elif (test =="CAE" and (grade >= 60 and grade < 80)):
-            return green
+            return "c1"
         elif (test =="CAE" and grade > 45 and grade < 60):
-            return blue
+            return "b2"
         
         elif (test == "CPE" and grade >= 60):
-            return red
+            return "c2"
         elif (test == "CPE" and (grade > 45 and grade < 60)):
-            return green
+            return "c1"
         
         else:
-            return gray
+            return "fail"
         
 
 def ConvertTable():
