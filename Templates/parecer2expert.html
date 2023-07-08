@@ -19,21 +19,23 @@
             <h4><b>Professor:</b> {{teacher}}</h4>
         </div>
     </div>
+        
+    
 
     <div style="display: flex; flex-direction: row; justify-content: flex-start;">
         <h4> Curioso(a) para saber os seus resultados para este semestre? Aqui estão nossas considerações: </h4>
     </div>
 
     <div style="display: flex; flex-direction: row; justify-content: center;">
-        <h3 style="margin: 10px;">Parecer Descritivo 1</h3>ize: 12pt
+        <h3 style="margin: 10px;">Parecer Descritivo 2</h3>
     </div>
 
     <div class="main"> 
         <div class="table">
             <table class="maintable">
                 <tr class="dark">
-                    <th><span style="font-size: 10pt;">Skill</span><br/><span style="font-size: 8pt;">Habilidade</span></th>
-                    <th><span style="font-size: 10pt;">Grade</span><br/><span style="font-size: 8pt;">Nota</span></th>
+                    <th class="narrow"><span style="font-size: 10pt;">Skill</span><br/><span style="font-size: 8pt;">Habilidade</span></th>
+                    <th class="narrow"><span style="font-size: 10pt;">Grade</span><br/><span style="font-size: 8pt;">Nota</span></th>
                 </tr>
                 <tr>
                     <td><span style="font-size: 10pt;">Listening</span><br/><span style="font-size: 8pt;">Compreensão Oral</span></td>
@@ -64,8 +66,12 @@
                     <td style="font-size: 10pt;">{{attendance}}%</td>
                 </tr>
                 <tr class="dark">
-                    <td style="font-size: 12pt; font-weight: bold;">Resultado do Parecer 1:</td>
-                    <td style="background-color: #FE3C00; font-size: 10pt; font-weight: bold;">{{parecerGrade}}/10</td>
+                    <td style="font-size: 10pt;">Resultado do Parecer 2:</td>
+                    <td style="font-size: 10pt;">{{parecerGrade}}/10</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12pt; font-weight: bold; padding-bottom: 2px;">Resultado Final:</td>
+                    <td style="background-color: #FE3C00; font-size: 10pt; font-weight: bold; padding-bottom: 2px;">{{finalScore}}/10</td>
                 </tr>
             </table>
             {{gradeTable}}
@@ -76,8 +82,24 @@
                     <p><b>Comentário do professor:</b></p>
                     <p style="margin-top: 10px;">{{comments}}</p>
                 </div>
+                <div>
+                    <h3 style="margin-top: 5px; margin-bottom: 5px;">Mocks (Simulados) Opcionais:</h3>
+                    {{mockTable}}
+                    <table class="cefr">
+                        <tr>
+                            <td style="font-size: 10pt;">CEFR:</td>
+                            <td class="a1">A1</td>
+                            <td class="a2">A2</td>
+                            <td class="b1">B1</td>
+                            <td class="b2">B2</td>
+                            <td class="c1">C1</td>
+                            <td class="c2">C2</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
+
 
     <div class="footer">
         <img src="../static/Rodapé.png">

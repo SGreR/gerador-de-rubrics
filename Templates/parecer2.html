@@ -1,111 +1,90 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<center><img src="../Images/Parecer2Header.png" alt="[Imagem de cabeçalho]"></center>
-<p>
-</p>
-<align="left">Olá, <b>{{student}}</b>!</align>   |   <align="right"><b>Turma:</b> {{level}}   |   <b>Teacher:</b> {{teacher}}</align>
+<head>
+    <link rel="stylesheet" href="../static/parecer.css">
+</head>
 
-<p>
-</p>
+<body>
+    <div class="imgHolder">
+        <img src="../static/Logo.jpeg" style="max-height: 100px; margin-bottom: 10px;" alt="[Imagem de cabeçalho]">
+    </div>
 
-Curioso para saber os seus resultados para este semestre? Aqui estão nossas considerações:
+    <div class="header">
+        <div class="studentinfo">
+            <h4>Olá, <b>{{student}}!</b></h4>
+            <h4><b>Turma:</b> {{level}}</h4>
+        </div>
+        <div class="studentinfo">
+            <h4><b>Semestre:</b> {{semester}}</h4>
+            <h4><b>Professor:</b> {{teacher}}</h4>
+        </div>
+    </div>
 
-<p>
-</p>
+    <div style="display: flex; flex-direction: row; justify-content: flex-start;">
+        <h4> Curioso(a) para saber os seus resultados para este semestre? Aqui estão nossas considerações: </h4>
+    </div>
 
-<center><b>Parecer Descritivo 2</b></center>
-<p>
-    
-</p>
-<justify><b>Grammar: {{grammar}} / 10</b>
+    <div style="display: flex; flex-direction: row; justify-content: center;">
+        <h3 style="margin: 10px;">Parecer Descritivo 2</h3>
+    </div>
 
-<p>
-</p>
+    <div class="main"> 
+        <div class="table">
+            <table class="maintable">
+                <tr class="dark">
+                    <th class="narrow"><span style="font-size: 10pt; ">Skill</span><br/><span style="font-size: 8pt;">Habilidade</span></th>
+                    <th class="narrow"><span style="font-size: 10pt;">Grade</span><br/><span style="font-size: 8pt;">Nota</span></th>
+                </tr>
+                <tr>
+                    <td><span style="font-size: 10pt;">Listening</span><br/><span style="font-size: 8pt;">Compreensão Oral</span></td>
+                    <td style="font-size: 10pt;">{{listening}}/10</td>
+                </tr>
+                <tr class="dark">
+                    <td><span style="font-size: 10pt;">Use of English</span><br/><span style="font-size: 8pt;">Uso Gramatical</span></td>
+                    <td style="font-size: 10pt;">{{grammar}}/10</td>
+                </tr>
+                <tr>
+                    <td><span style="font-size: 10pt;">Reading</span><br/><span style="font-size: 8pt;">Compreensão Escrita</span></td>
+                    <td style="font-size: 10pt;">{{reading}}/10</td>
+                </tr>
+                <tr class="dark">
+                    <td><span style="font-size: 10pt;">Writing</span><br/><span style="font-size: 8pt;">Produção Escrita</span></td>
+                    <td style="font-size: 10pt;">{{writing}}/10</td>
+                </tr>
+                <tr>
+                    <td><span style="font-size: 10pt;">Speaking</span><br/><span style="font-size: 8pt;">Produção Oral</span></td>
+                    <td style="font-size: 10pt;">{{speaking}}/10</td>
+                </tr>
+                <tr class="dark">
+                    <td><span style="font-size: 10pt;">Class Perfomance</span><br/><span style="font-size: 8pt;">Performance em Sala</span></td>
+                    <td style="font-size: 10pt;">{{classPerformance}}/10</td>
+                </tr>
+                <tr>
+                    <td><span style="font-size: 10pt;">Attendance</span><br/><span style="font-size: 8pt;">Frequência</span></td>
+                    <td style="font-size: 10pt;">{{attendance}}%</td>
+                </tr>
+                <tr class="dark">
+                    <td style="font-size: 10pt;">Resultado do Parecer 2:</td>
+                    <td style="font-size: 10pt;">{{parecerGrade}}/10</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12pt; font-weight: bold; padding-bottom: 2px;">Resultado Final:</td>
+                    <td style="background-color: #FE3C00; font-size: 10pt; font-weight: bold; padding-bottom: 2px;">{{finalScore}}/10</td>
+                </tr>
+            </table>
+            {{gradeTable}}
+        </div>
 
-{{grammarfeedback}}
+            <div class="comments">
+                <div >
+                    <p><b>Comentário do professor:</b></p>
+                    <p style="margin-top: 10px;">{{comments}}</p>
+                </div>
+            </div>
+        </div>
 
-<p>  
-</p>
+    <div class="footer">
+        <img src="../static/Rodapé.png">
+    </div>
 
-<b>Reading: {{reading}} / 10</b>
-
-<p>
-</p>
-{{readingfeedback}}
-
-<p> 
-</p>
-
-<b>Listening: {{listening}} / 10</b>
-
-<p>
-</p>
-
-{{listeningfeedback}}
-
-<p>
-</p>
-
-<b>Writing: {{writing}} / 10</b>
-
-<p>  
-</p>
-
-{{writingfeedback}}
-
-<p>   
-</p>
-
-<b>Speaking: {{speaking}} / 10</b>
-
-<p>
-</p>
-
-{{speakingfeedback}}
-
-<p> 
-</p>
-
-<b>Class Performance: {{classPerformance}} / 10</b>
-
-<p>
-</p>
-
-{{globalperformancefeedback}}</justify>
-
-<p>
-</p>
-
-<center><b>Comentário do professor:</b></center>
-
-<p>
-</p>
-
-{{comments}}
-<p>
-<br>
-</p>
-
-<b>Resultado do Parecer 2: {{parecerGrade}}/100</b>
-<hr>
-
-<h3><b>Final Score: {{finalScore}}/100</b></h3>
-<p>
-</p>
-<left><img src="../Images/conceito.png" width="200" height="67" alt="[Tabela de conceitos]"></left>
-
-<p>
-<hr>
-</p>
-
-Em caso de dúvidas, entre em contato conosco através deste e-mail ou pelo telefone: [informações de contato].
-<p>
-<br>
-</p>
-
-Atenciosamente,
-<p>
-<br>
-</p>
-
-<b>[Nome da escola]</b>
+</body>

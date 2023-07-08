@@ -96,7 +96,7 @@ def ValidateGrades(parecer, grades):
     speaking = 0 if math.isnan(grades[columns[4]]) else round(grades[columns[4]],1)
     classperformance = 0 if math.isnan(grades[columns[5]]) else round(grades[columns[5]],1)
     parecergrade = 0 if math.isnan(grades[columns[6]]) else round(statistics.mean([speaking, listening, reading, writing, grammar,classperformance]),1)
-    finalscore = 0 if math.isnan(grades[columns[6]]) else int(round(grades[columns[6]]/10, 1))
+    finalscore = 0 if math.isnan(grades[columns[6]]) else round(grades[columns[6]]/10, 1)
     attendance = 0 if math.isnan(grades[columns[7]]) else grades[columns[7]]
     comments = grades[columns[8]]
 
@@ -115,12 +115,17 @@ def RenderTemplate(parecer, teacher, level, semester, totalClasses, folder_path,
 
     loader = FileSystemLoader('templates')
     env = Environment(loader=loader)
-    if ("expert" in level.lower() or "master" in level.lower() and parecer == 1):
-        template = env.get_template('parecer1expert.html')
-    elif (parecer == 1):
-        template = env.get_template('parecer1.html')
-    if (parecer == 2):
-        template = env.get_template('parecer2.html')
+
+    if ("expert" in level.lower() or "master" in level.lower()):
+        if (parecer == 1):
+            template = env.get_template('parecer1expert.html')
+        else:
+            template = env.get_template('parecer2expert.html')
+    else:
+        if (parecer == 1):
+            template = env.get_template('parecer1.html')
+        else :
+            template = env.get_template('parecer2.html')
 
     for student in student_dict.keys():
         
@@ -211,19 +216,19 @@ def getGradeTable(grade):
 def getMockTable(mocks):
     tableContent = '<table class="mocktable">\n'
     tableContent += '<tr>\n'
-    tableContent += '<th>Data</th>\n'
-    tableContent += '<th>Mock</th>\n'
-    tableContent += '<th>Número</th>\n'
-    tableContent += '<th>Reading and Use of English</th>\n'
-    tableContent += '<th>Writing</th>\n'
-    tableContent += '<th>Listening</th>\n'
+    tableContent += '<th style="font-size: 10pt;">Data</th>\n'
+    tableContent += '<th style="font-size: 10pt;">Mock</th>\n'
+    tableContent += '<th style="font-size: 10pt;">Número</th>\n'
+    tableContent += '<th style="font-size: 10pt;">Reading and Use of English</th>\n'
+    tableContent += '<th style="font-size: 10pt;">Writing</th>\n'
+    tableContent += '<th style="font-size: 10pt;">Listening</th>\n'
     tableContent += '</tr>\n'
 
     for mock in mocks:
         tableContent += '<tr>\n'
-        tableContent += '<td>{}</td>\n'.format(mocks[mock]["Date"])
-        tableContent += '<td>{}</td>\n'.format(mocks[mock]["Test"])
-        tableContent += '<td>{}</td>\n'.format(mocks[mock]["Number"])
+        tableContent += '<td style="font-size: 10pt;">{}</td>\n'.format(mocks[mock]["Date"])
+        tableContent += '<td style="font-size: 10pt;">{}</td>\n'.format(mocks[mock]["Test"])
+        tableContent += '<td style="font-size: 10pt;">{}</td>\n'.format(mocks[mock]["Number"])
         tableContent += '<td class={}>{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Reading and Use of English"]),mocks[mock]["Reading and Use of English"])
         tableContent += '<td class={}>{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Listening"]),mocks[mock]["Listening"])
         tableContent += '<td class={}>{}%</td>\n'.format(getColor(mocks[mock]["Test"], mocks[mock]["Writing"]),mocks[mock]["Writing"])
