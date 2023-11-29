@@ -5,29 +5,22 @@
 </head>
 
 <body>
-    <div class="imgHolder">
-        <img src="../static/Logo.jpeg" style="max-height: 100px; margin-bottom: 10px;" alt="[Imagem de cabeçalho]">
-    </div>
-
     <div class="header">
-        <div class="studentinfo">
-            <h4>Olá, <b>{{student}}!</b></h4>
-            <h4><b>Turma:</b> {{level}}</h4>
+        <div class="imgHolder">
+            <img src="../static/Logo.jpeg" style="max-height: 100px;" alt="[Imagem de cabeçalho]">
         </div>
         <div class="studentinfo">
-            <h4><b>Semestre:</b> {{semester}}</h4>
-            <h4><b>Professor:</b> {{teacher}}</h4>
+            <div>
+                <h4>Olá, <b>{{student}}!</b></h4>
+                <h4><b>Turma:</b> {{level}}</h4>
+            </div>
+            <div>
+                <h4><b>Semestre:</b> {{semester}}</h4>
+                <h4><b>Professor:</b> {{teacher}}</h4>
+            </div>
         </div>
-    </div>
-        
-    
-
-    <div style="display: flex; flex-direction: row; justify-content: flex-start;">
         <h4> Curioso(a) para saber os seus resultados para este semestre? Aqui estão nossas considerações: </h4>
-    </div>
-
-    <div style="display: flex; flex-direction: row; justify-content: center;">
-        <h3 style="margin: 10px;">Parecer Descritivo 2</h3>
+        <h3 style="margin: 10px; text-align: center; width: auto;">Parecer Descritivo 2</h3>
     </div>
 
     <div class="main"> 
@@ -74,16 +67,12 @@
                     <td style="background-color: #FE3C00; font-size: 10pt; font-weight: bold; padding-bottom: 2px;">{{finalScore}}/10</td>
                 </tr>
             </table>
-            {{gradeTable}}
+            
         </div>
 
             <div class="comments">
-                <div >
-                    <p><b>Comentário do professor:</b></p>
-                    <p style="margin-top: 10px;">{{comments}}</p>
-                </div>
                 <div>
-                    <h3 style="margin-top: 5px; margin-bottom: 5px;">Mocks (Simulados) Opcionais:</h3>
+                    <h3 style="margin-top: 0px; margin-bottom: 5px;">Mocks (Simulados) Opcionais:</h3>
                     {{mockTable}}
                     <table class="cefr">
                         <tr>
@@ -96,13 +85,12 @@
                             <td class="c2">C2</td>
                         </tr>
                     </table>
+                    <div style="margin-top: 10px;">
+                        {{gradeTable}}
+                    </div>
+                    
                 </div>
             </div>
         </div>
-
-
-    <div class="footer">
         <img src="../static/Rodapé.png">
-    </div>
-
 </body>

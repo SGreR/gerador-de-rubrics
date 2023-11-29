@@ -1,8 +1,9 @@
 body {
     display: block;
     margin: 0px;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
 }
 
 .imgHolder {
@@ -16,14 +17,15 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: start;
+    align-items: stretch;
     overflow: auto;
     height: auto;
     max-width: 100%;
 }
 
 .table{
-    flex: 0;
-    min-width: 200px;
+    flex: 1;
+    min-width: 210px;
     gap: 5px;
 }
 
@@ -59,11 +61,12 @@ body {
 
 .comments{
     display: flex;
+    flex: 2;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding-left: 20px;
     padding-right: 5px;
-    gap: 5px;
+    margin-bottom: 5px;
 }
 
 .mocktable {
@@ -107,13 +110,15 @@ h4{
 }
 
 .maintable {
+    width: 100%;
     border: solid black 2px;
     margin-bottom: 5px;
 }
 
 .concept {
+    flex: 0;
     border: solid black 2px;
-    width: 100%;
+    min-width: 210px;
 }
 
 img {
@@ -144,20 +149,28 @@ img {
 
 .cefr{
     width: 100%;
+    margin-bottom: 5px;
 }
 
-.studentinfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: stretch;
-    height: fit-content;
-}
-
-.header{
+.studentinfo{
     display: flex; 
     flex-direction: row;
     justify-content: stretch;
     width: 1fr;
-    justify-self: center;
+}
+
+.studentinfo > div {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    height: fit-content;
+    padding-right: 10px;
+}
+
+.header{
+    display: flex;
+    flex-direction: column; 
+    justify-content:space-around; 
+    align-items: stretch;
 }

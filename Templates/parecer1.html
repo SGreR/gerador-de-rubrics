@@ -5,27 +5,22 @@
 </head>
 
 <body>
-    <div class="imgHolder">
-        <img src="../static/Logo.jpeg" style="max-height: 100px; margin-bottom: 10px;" alt="[Imagem de cabeçalho]">
-    </div>
-
     <div class="header">
-        <div class="studentinfo">
-            <h4>Olá, <b>{{student}}!</b></h4>
-            <h4><b>Turma:</b> {{level}}</h4>
+        <div class="imgHolder">
+            <img src="../static/Logo.jpeg" style="max-height: 100px;" alt="[Imagem de cabeçalho]">
         </div>
         <div class="studentinfo">
-            <h4><b>Semestre:</b> {{semester}}</h4>
-            <h4><b>Professor:</b> {{teacher}}</h4>
+            <div>
+                <h4>Olá, <b>{{student}}!</b></h4>
+                <h4><b>Turma:</b> {{level}}</h4>
+            </div>
+            <div>
+                <h4><b>Semestre:</b> {{semester}}</h4>
+                <h4><b>Professor:</b> {{teacher}}</h4>
+            </div>
         </div>
-    </div>
-
-    <div style="display: flex; flex-direction: row; justify-content: flex-start;">
         <h4> Curioso(a) para saber os seus resultados para este semestre? Aqui estão nossas considerações: </h4>
-    </div>
-
-    <div style="display: flex; flex-direction: row; justify-content: center;">
-        <h3 style="margin: 10px;">Parecer Descritivo 1</h3>ize: 12pt
+        <h3 style="margin: 10px; text-align: center; width: auto;">Parecer Descritivo 1</h3>
     </div>
 
     <div class="main"> 
