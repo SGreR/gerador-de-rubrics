@@ -19,7 +19,7 @@ body {
     justify-content: start;
     align-items: stretch;
     overflow: auto;
-    height: auto;
+    height: 450px;
     max-width: 100%;
 }
 
